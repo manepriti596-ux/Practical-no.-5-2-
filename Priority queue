@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+
+#define MAX 5
+
+struct PQ {
+    int data;
+    int priority;
+};
+
+PQ pq[MAX];
+int size = -1;
+
+void insert(int value, int priority) {
+    if (size == MAX - 1) {
+        cout << "Queue Overflow\n";
+        return;
+    }
+    size++;
+    pq[size].data = value;
+    pq[size].priority = priority;
+}
+
+int getHighestPriorityIndex() {
+    int highest = 0;
+    for (int i = 1; i <= size; i++) {
+        if (pq[i].priority > pq[highest].priority)
+            highest = i;
+    }
+    return highest;
+}
+
+void deleteElement() {
+    if (size == -1) {
+        cout << "Queue Underflow\n";
+        return;
+    }
+
+    int index = getHighestPriorityIndex();
+    cout << "Deleted: " << pq[index].data << endl;
+
+    for (int i = index; i < size; i++) {
+        pq[i] = pq[i + 1];
+    }
+    size--;
+}
+
+void display() {
+    for (int i = 0; i <= size; i++) {
+        cout << pq[i].data << "(P=" << pq[i].priority << ") ";
+    }
+    cout << endl;
+}
+
+int main() {
+    insert(10, 2);
+    insert(20, 1);
+    insert(30, 3);
+
+    display();
+    deleteElement();
+    display();
+
+    return 0;
+}
